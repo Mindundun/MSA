@@ -1,0 +1,15 @@
+server:
+  port: 8888 # Config Server port 관례상 포트 
+
+spring:
+  application:
+    name: config-service
+
+  # Config Server 설정
+  # GitHub 주소와 검색할 브랜치
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Mindundun/my-config-repo.git
+          default-label: master

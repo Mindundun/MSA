@@ -1,0 +1,4 @@
+rootProject.name = 'multi-module'
+
+include 'module-common' // include 'module-common:a' include 'module-common:b' 계층구조일때 콜론으로 작성
+include 'module-api'

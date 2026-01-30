@@ -1,0 +1,33 @@
+server:
+  port: 9091 
+
+spring:
+  application:
+    name: product-service
+  # Config Server 설정
+  config:
+    # github에서 위의 spring.application.name + .yml 파일을 찾아서 설정을 가져온다!!
+    # 다른 이름의 yml파일은 가져오지 않는다.
+    import: 
+    - optional:configserver:http://localhost:8888 # Config Server 주소
+
+
+# Eureka Client 설정
+eureka:
+  client:
+    register-with-eureka: true # Eureka 서버는 자신을 Eureka 서버가 관리하는 서비스 목록에 등록하지 않음
+    fetch-registry: true # Eureka 서버는 레지스트리(저장소)를 가져오지 않음, 가져와서 캐싱해 둘 것 인가?
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Eureka 서버 URL
+  
+# Actuator 설정
+# 엔드포인트 노출이 필요(기본적으로 모든 엔드포인트가 비노출 상태라서)
+# 요청 방법
+# POST http://localhost:{각 서비스 포트, 현재는 9091}/actuator/refresh
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        # - refresh # /actuator/refresh 엔드포인트 노출
+        - "*" # 모든 엔드포인트 노출

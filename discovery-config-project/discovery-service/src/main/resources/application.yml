@@ -1,0 +1,25 @@
+server:
+  port: 8761 # Eureka server port 관례상 포트
+
+spring:
+  application:
+    name: discovery-service
+
+
+# Eureka server 설정
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # Eureka 서버는 자신을 Eureka 서버가 관리하는 서비스 목록에 등록하지 않음
+    fetch-registry: false # Eureka 서버는 레지스트리(저장소)를 가져오지 않음, 가져와서 캐싱해 둘 것 인가?
+  
+  server:
+    # 자기 보존 모드 ( 안전 모드 )
+    # 서버에서 클라이언트가 삭제되어도 대시보드에서 계속 살아있는 상태(Up)를 유지
+    # 개발 시 false, 운영 시 true 권장
+    enable-self-preservation: false 
+
+    # 종료 된 서비스를 3초 후 대시보드 목록에서 제거
+    eviction-interval-timer-in-ms: 3000 # 밀리초라 3000이면 3초.
+    

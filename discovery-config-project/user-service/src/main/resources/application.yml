@@ -1,0 +1,44 @@
+server:
+  port: 0 # 랜덤 포트 설정, 2개 이상의 서비스를 같은 컴퓨터에서 실행할 때 포트 충돌 방지
+
+spring:
+  application:
+    # 유레카 서버에 등록할 때 서비스 이름이며, 대문자로 바뀌어서 저장된다. 
+    # 추후 통신은 http:user-service로 통신가능하지만, http://USER 로 통신.
+    # Eureka Server 등록 시 : USER-SERVICE
+    # Config Server 등록 시 : user-service.yml
+    name: user-service 
+  # Config Server 설정
+  config:
+    # github에서 위의 spring.application.name + .yml 파일을 찾아서 설정을 가져온다!!
+    # 다른 이름의 yml파일은 가져오지 않는다.
+    import: 
+    - optional:configserver:http://localhost:8888 # Config Server 주소
+  
+  # RabbitMQ 설정
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Eureka Client 설정
+eureka:
+  client:
+    register-with-eureka: true # Eureka 서버는 자신을 Eureka 서버가 관리하는 서비스 목록에 등록하지 않음
+    fetch-registry: true # Eureka 서버는 레지스트리(저장소)를 가져오지 않음, 가져와서 캐싱해 둘 것 인가?
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Eureka 서버 URL
+
+
+# Actuator 설정
+# 엔드포인트 노출이 필요(기본적으로 모든 엔드포인트가 비노출 상태라서)
+# 요청 방법
+# POST http://localhost:{각 서비스 포트}/actuator/bus-refresh
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - busrefresh # /actuator/busrefresh 엔드포인트 노출
+        - health-check # /actuator/health-check 엔드포인트 노출

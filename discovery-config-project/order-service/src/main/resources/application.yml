@@ -1,0 +1,11 @@
+spring:
+  application:
+    # Eureka Server 등록 시 : ORDER-SERVICE
+    # Config Server 등록 시 : order-service.yml
+    name: order-service
+  # Config Server 설정
+  config:
+    # github에서 위의 spring.application.name + .yml 파일을 찾아서 설정을 가져온다!!
+    # 다른 이름의 yml파일은 가져오지 않는다.
+    import: 
+    - optional:configserver:http://localhost:8888 # Config Server 주소

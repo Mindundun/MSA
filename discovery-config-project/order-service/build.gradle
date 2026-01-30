@@ -1,0 +1,14 @@
+dependencies {
+	// Spring Cloud Eureka Client
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	
+	// Spring Boot Starter Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Spring Cloud Config Client, dependency 가 적혀 있지 않은 통합된 팩이다.
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+	// Spring Cloud Bus with AMQP (RabbitMQ)
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	
+}

@@ -1,0 +1,15 @@
+dependencies {
+  // Spring Web
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+
+  // MySQL
+  implementation 'com.mysql:mysql-connector-j'
+  
+  // JPA & MyBatis 모듈 의존성 주입
+  implementation project(':module-core-jpa')
+  implementation project(':module-core-mapper')
+}
+
+// 실행을 위해 module-api는 bootJar ON
+bootJar { enabled = true }
+jar { enabled = false }

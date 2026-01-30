@@ -1,0 +1,12 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: module-core-mapper
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.point.dto
+  configuration:
+    map-underscore-to-camel-case: true # 밑줄 대신 카멜 케이스 하도록 설정

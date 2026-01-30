@@ -1,0 +1,15 @@
+// 테스트 픽스처 플러그인 추가
+plugins {
+    id 'java-test-fixtures'
+}
+
+// Spring Boot 단독 실행 Jar 생성 끄기
+bootJar {
+    enabled = false
+}
+
+// 일반 라이브러리 Jar 생성 켜기 (On)
+jar {
+    enabled = true
+}
+
