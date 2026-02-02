@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-cloud-feign-product
+
+logging:
+  level:
+    '[com.example.cloud_product.client]': DEBUG
