@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.example.proto;
+
+option java_multiple_files = true;
+
+option java_package = "com.example.common.inventory";
+
+service InventoryService {
+
+    rpc CheckStock (ProductRequest) returns (StockResponse);
+}
+
+// productId 전달하면 재고 현황 받아오기
+message ProductRequest {
+    string productId = 1;
+}
+
+message StockResponse {
+    string productId = 1;
+    int32 quantity = 2;
+    bool inStock = 3;
+}

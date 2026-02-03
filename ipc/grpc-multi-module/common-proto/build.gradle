@@ -1,0 +1,60 @@
+// 1. 플러그인 설정
+plugins {
+    // Gradle이 .proto 파일을 인식하고 컴파일할 수 있도록 기능을 추가합니다.
+    // 이 플러그인은 '관리자' 역할이며, 실제 컴파일은 아래 'protobuf' 블록에서 지정한 도구가 수행합니다.
+    id 'com.google.protobuf' version '0.9.6'
+}
+
+// 2. 패키징 설정
+// Spring Boot의 실행 가능한 Fat Jar(bootJar)는 끄고, 일반 라이브러리 Jar(jar)만 만듭니다.
+bootJar { enabled = false }
+jar { enabled = true }
+
+// 3. 의존성 관리
+dependencies {
+    // 3-1. gRPC 통신 엔진 (Netty Shaded)
+    // 일반 Netty 대신 Shaded 버전을 사용하여, 다른 라이브러리의 Netty 버전과 충돌을 방지합니다.
+    implementation 'io.grpc:grpc-netty-shaded:1.69.0'
+
+    // 3-2. Protobuf 연동 라이브러리
+    // .proto 파일로 생성된 메시지 객체를 직렬화/역직렬화하는 기능을 제공합니다.
+    // (내부적으로 grpc-api를 포함하고 있어 별도로 적지 않습니다.)
+    implementation 'io.grpc:grpc-protobuf:1.69.0'
+
+    // 3-3. 클라이언트/서버 스텁 (Stub)
+    // 실제 서비스 인터페이스와 비동기/동기 호출 코드를 지원합니다.
+    implementation 'io.grpc:grpc-stub:1.69.0'
+
+    // 3-4. 어노테이션 지원
+    // 생성된 코드에 붙는 @javax.annotation.Generated 등의 어노테이션을 처리합니다.
+    // Tomcat 등 다른 웹 서버 라이브러리와의 충돌을 막기 위해 compileOnly로 설정합니다.
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
+}
+
+// 4. Protobuf 컴파일 상세 설정
+protobuf {
+    // 4-1. 컴파일러 지정 (작업자)
+    // 플러그인(관리자)에게 이 버전의 protoc를 다운받아 컴파일하라고 지시합니다.
+    protoc {
+        def protocVersion = '3.25.5'
+        artifact = "com.google.protobuf:protoc:${protocVersion}"
+    }
+
+    // 4-2. 코드 생성 플러그인
+    // protoc는 기본적으로 메시지(DTO)만 만듭니다.
+    // gRPC 서비스 코드(InventoryServiceGrpc, 통신 클래스 (Service/Stub))를 만들기 위해서는 별도의 플러그인(protoc-gen-grpc-java)이 필요합니다.
+    plugins {
+        grpc {
+        artifact = 'io.grpc:protoc-gen-grpc-java:1.69.0'
+        }
+    }
+
+    // 4-3. 태스크 연결
+    // 빌드 과정에서 'grpc' 플러그인을 모든 프로토 생성 작업에 적용합니다.
+    // 이 설정이 없으면 서비스 코드(InventoryServiceGrpc, 통신 클래스 (Service/Stub)) 코드가 생성되지 않습니다.
+    generateProtoTasks {
+        all()*.plugins {
+        grpc {}
+        }
+    }
+}

@@ -1,0 +1,5 @@
+rootProject.name = 'grpc-multi-module'
+
+include 'common-proto'
+include 'inventory-service'
+include 'shop-service'

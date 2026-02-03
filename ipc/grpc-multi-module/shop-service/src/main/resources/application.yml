@@ -1,0 +1,10 @@
+# shop-service
+server:
+  port: 8082
+
+# gRPC Client 정보
+grpc:
+  client:
+    inventory-service:  # 접속할 gRPC 서버의 서비스 이름
+      address: static://localhost:9090  # gRPC 서버 주소 필요
+      negotiation-type: plaintext  # SSL 없이 통신 (개발용). Production이라면 TLS (암호화. 인증서 필요)
