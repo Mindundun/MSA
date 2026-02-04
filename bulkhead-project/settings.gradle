@@ -1,0 +1,4 @@
+rootProject.name = 'bulkhead-project'
+
+include 'doc-service'
+include 'search-service'

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: search-service
+
+server:
+  port: 8082
+
+resilience4j:
+  bulkhead:
+    instances:
+      docService:                # @Bulkhead(name = "docService") 이름 매칭
+        max-concurrent-calls: 1  # 동시에 1명만 입장 가능 (극단적 테스트 환경)
+        max-wait-duration: 0ms   # 대기 시간 없음. 꽉 차면 즉시 거절(Fallback)
