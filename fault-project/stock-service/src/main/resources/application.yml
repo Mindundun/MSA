@@ -1,0 +1,33 @@
+server:
+  port: 8082
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      marketService:                 # @CircuitBreaker(name = "marketService")
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5         # 최근 5번 요청을 기준으로 판단
+        minimumNumberOfCalls: 3      # 최소 3번 호출 이후부터 계산
+        failureRateThreshold: 50     # 실패율 50% 이상이면 OPEN (차단)
+        waitDurationInOpenState: 10s # OPEN 상태에서 10초 대기 후 HALF_OPEN으로 전환
+        permittedNumberOfCallsInHalfOpenState: 3 # HALF_OPEN 상태에서 3번 허용해보고 결정
+  
+  retry:
+    instances:
+      marketService:                # @Retry(name = "marketService")
+        maxAttempts: 3              # 최대 3번 재시도
+        waitDuration: 1000ms        # 재시도 간격 1초
+
+
+management:
+  endpoint:
+    health:
+      show-details: always  # circuitBreaker OPEN / CLOSED 상세 상태 확인을 위해
+  endpoints:  
+    web:
+      exposure:
+        include: health     # /actuator/health 엔드포인트 노출
+  health:
+    circuitbreakers:
+      enabled: true         # 헬스 체크 시 circuitbreakers 설정 보기

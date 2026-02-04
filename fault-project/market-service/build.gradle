@@ -1,0 +1,5 @@
+// 추가 의존성 없음 (상속받은 Web, Lombok 등만 사용)
+dependencies {
+    // Spring Boot Starter Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
