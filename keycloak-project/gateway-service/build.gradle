@@ -1,0 +1,10 @@
+dependencies {
+	// Spring Cloud Gateway Webflux
+	implementation 'org.springframework.cloud:spring-cloud-starter-gateway-server-webflux'
+
+	// Spring Cloud Starter Netflix Eureka Client
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+	// Spring Boot OAuth2 Resource Server: Spring Security 핵심 기능 내장
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+}

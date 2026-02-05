@@ -1,0 +1,25 @@
+services:
+  keycloak:
+    # [1] 이미지 지정: Red Hat의 공식 레지스트리(quay.io)를 사용합니다.
+    image: quay.io/keycloak/keycloak:23.0.0
+    
+    # [2] 컨테이너 이름
+    container_name: keycloak-container
+    
+    # [3] 포트 매핑: (호스트 포트):(컨테이너 포트)
+    # Keycloak의 기본 포트는 8080입니다.
+    ports:
+      - "8080:8080"
+    
+    # [4] 환경 변수 설정
+    environment:
+      # 초기 관리자 계정 ID/PW 설정입니다. 
+      # 이 설정이 없으면 Keycloak이 시작되더라도 로그인할 수 없습니다.
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    
+    # [5] 실행 명령어: 개발 모드(start-dev)로 실행
+    # - HTTPS 설정 무시
+    # - H2(내장 메모리 DB) 사용
+    # - 캐시 설정 간소화
+    command: start-dev
